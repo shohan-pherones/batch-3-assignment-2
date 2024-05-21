@@ -24,7 +24,9 @@ const createProduct = async (req: Request, res: Response) => {
 
 const retrieveProducts = async (req: Request, res: Response) => {
   try {
-    const result = await ProductServices.retrieveProductsFromDb();
+    const { searchTerm } = req.query as { searchTerm: string };
+
+    const result = await ProductServices.retrieveProductsFromDb(searchTerm);
 
     res.status(200).json({
       success: true,

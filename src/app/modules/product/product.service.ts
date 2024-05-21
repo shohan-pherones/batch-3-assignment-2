@@ -8,8 +8,21 @@ const createProductIntoDb = async (
   return result;
 };
 
-const retrieveProductsFromDb = async (): Promise<IProduct[] | null> => {
-  const result = await Product.find();
+const retrieveProductsFromDb = async (
+  searchTerm: string,
+): Promise<IProduct[] | null> => {
+  const $regex = new RegExp(searchTerm, 'i');
+
+  const result = await Product.find({
+    $or: [
+      { name: { $regex } },
+      { description: { $regex } },
+      { category: { $regex } },
+      { tags: { $in: [$regex] } },
+      { 'variants.type': { $regex } },
+      { 'variants.value': { $regex } },
+    ],
+  });
   return result;
 };
 
