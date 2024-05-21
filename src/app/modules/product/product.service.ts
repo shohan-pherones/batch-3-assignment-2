@@ -30,9 +30,15 @@ const mutateProductInDb = async (
   return result;
 };
 
+const deleteProductFromDb = async (productId: string): Promise<null> => {
+  await Product.findByIdAndDelete(productId);
+  return null;
+};
+
 export const ProductServices = {
   createProductIntoDb,
   retrieveProductsFromDb,
   retrieveProductByIdFromDb,
   mutateProductInDb,
+  deleteProductFromDb,
 };
