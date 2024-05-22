@@ -28,6 +28,10 @@ const retrieveOrders = async (req: Request, res: Response) => {
 
     const { data, message } = await OrderService.retrieveOrdersFromDb(email);
 
+    if (!data?.length) {
+      throw new Error('Order not found');
+    }
+
     res.status(200).json({
       success: true,
       message,
