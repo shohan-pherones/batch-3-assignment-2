@@ -74,8 +74,11 @@ const mutateProduct = async (req: Request, res: Response) => {
       throw new Error('Product is not found!');
     }
 
+    // initiate a partial schema
+    const partialProductValidationSchema = productValidationSchema.partial();
+
     // validate product data
-    const parsedProductData = productValidationSchema.parse(productData);
+    const parsedProductData = partialProductValidationSchema.parse(productData);
 
     // mutate product
     const result = await ProductServices.mutateProductInDb(

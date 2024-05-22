@@ -45,11 +45,15 @@ const retrieveProductByIdFromDb = async (
 
 const mutateProductInDb = async (
   productId: string,
-  productData: IProduct,
+  productData: Partial<IProduct>,
 ): Promise<IProduct | null> => {
-  const result = await Product.findByIdAndUpdate(productId, productData, {
-    new: true,
-  });
+  const result = await Product.findByIdAndUpdate(
+    productId,
+    { $set: productData },
+    {
+      new: true,
+    },
+  );
   return result;
 };
 
