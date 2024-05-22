@@ -10,20 +10,30 @@ const createProductIntoDb = async (
 
 const retrieveProductsFromDb = async (
   searchTerm: string,
-): Promise<IProduct[] | null> => {
-  const $regex = new RegExp(searchTerm, 'i');
-
-  const result = await Product.find({
-    $or: [
-      { name: { $regex } },
-      { description: { $regex } },
-      { category: { $regex } },
-      { tags: { $in: [$regex] } },
-      { 'variants.type': { $regex } },
-      { 'variants.value': { $regex } },
-    ],
-  });
-  return result;
+): Promise<{ data: IProduct[] | null; message: string }> => {
+  if (searchTerm) {
+    const $regex = new RegExp(searchTerm, 'i');
+    const result = await Product.find({
+      $or: [
+        { name: { $regex } },
+        { description: { $regex } },
+        { category: { $regex } },
+        { tags: { $in: [$regex] } },
+        { 'variants.type': { $regex } },
+        { 'variants.value': { $regex } },
+      ],
+    });
+    return {
+      data: result,
+      message: `Products matching search term '${searchTerm}' fetched successfully!`,
+    };
+  } else {
+    const result = await Product.find();
+    return {
+      data: result,
+      message: 'Products fetched successfully!',
+    };
+  }
 };
 
 const retrieveProductByIdFromDb = async (

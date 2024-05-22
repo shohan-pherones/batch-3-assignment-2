@@ -52,9 +52,20 @@ const createOrderIntoDb = async (orderData: IOrder): Promise<IOrder | null> => {
   return order;
 };
 
-const retrieveOrdersFromDb = async (): Promise<IOrder[] | null> => {
-  const orders = await Order.find();
-  return orders;
+const retrieveOrdersFromDb = async (
+  email: string,
+): Promise<{ data: IOrder[] | null; message: string }> => {
+  if (email) {
+    const $regex = new RegExp(email, 'i');
+    const orders = await Order.find({ email: { $regex } });
+    return {
+      data: orders,
+      message: 'Orders fetched successfully for user email!',
+    };
+  } else {
+    const orders = await Order.find();
+    return { data: orders, message: 'Orders fetched successfully!' };
+  }
 };
 
 export const OrderService = {

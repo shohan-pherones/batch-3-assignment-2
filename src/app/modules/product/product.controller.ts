@@ -25,13 +25,13 @@ const createProduct = async (req: Request, res: Response) => {
 const retrieveProducts = async (req: Request, res: Response) => {
   try {
     const { searchTerm } = req.query as { searchTerm: string };
-
-    const result = await ProductServices.retrieveProductsFromDb(searchTerm);
+    const { data, message } =
+      await ProductServices.retrieveProductsFromDb(searchTerm);
 
     res.status(200).json({
       success: true,
-      message: 'Products fetched successfully!',
-      data: result,
+      message,
+      data,
     });
   } catch (error: any) {
     res.status(500).json({
