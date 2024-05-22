@@ -2,7 +2,7 @@ import Product from '../product/product.model';
 import { IOrder } from './order.interface';
 import Order from './order.model';
 
-const createOrderIntoDb = async (orderData: IOrder) => {
+const createOrderIntoDb = async (orderData: IOrder): Promise<IOrder | null> => {
   // find the product
   const product = await Product.findById(orderData.productId);
 
@@ -52,6 +52,12 @@ const createOrderIntoDb = async (orderData: IOrder) => {
   return order;
 };
 
+const retrieveOrdersFromDb = async (): Promise<IOrder[] | null> => {
+  const orders = await Order.find();
+  return orders;
+};
+
 export const OrderService = {
   createOrderIntoDb,
+  retrieveOrdersFromDb,
 };
