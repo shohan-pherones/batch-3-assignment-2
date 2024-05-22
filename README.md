@@ -59,4 +59,4 @@ npm run start:dev
 ## Useful Links
 
 - GitHub Repository URL (Server): https://github.com/shohan-pherones/batch-3-assignment-2.git
-- Live Server Link:
+- Live Server Link: https://ecommerce-backend-express.vercel.app/
